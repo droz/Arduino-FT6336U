@@ -30,8 +30,9 @@ void FT6336U::begin(void) {
         Wire.begin(sda, scl);
 #elif defined(ARDUINO_TEENSY41) || defined(ARDUINO_TEENSY40) || defined(TEENSYDUINO) || defined(TEENSYDUINO) 
         Wire.setSCL(scl); 
-        Wire.setSDA(sda);        
-        Wire.begin(); 
+        Wire.setSDA(sda);
+        Wire.begin();
+        Wire.setClock(400000);        
 #endif        
     }
     else {
@@ -255,7 +256,7 @@ uint8_t FT6336U::readByte(uint8_t addr) {
         Wire.beginTransmission(I2C_ADDR_FT6336U);
         Wire.write(addr);
         Wire.endTransmission(false); // Restart
-        delay(10);
+        //delay(10);
         rdDataCount = Wire.requestFrom(I2C_ADDR_FT6336U, 1);
     } while(rdDataCount == 0);
     while(Wire.available()) {
